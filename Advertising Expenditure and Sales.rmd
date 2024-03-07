@@ -1,0 +1,83 @@
+
+```{r}
+# Load necessary libraries
+library(tidyverse)
+library(broom)
+library(gtsummary)
+library(car)
+
+# Read the dataset
+Advertising <- read_csv("C:/Users/aholl/Desktop/Advertising.csv")
+
+# Exercise 1
+# Use the gtsummary package to replicate the table
+Advertising_2 <- Advertising
+
+# Create Title of Table
+caption <- "Advertising Expenditure and Sales"
+
+tbl_summary(Advertising_2) %>%
+  modify_header(title = caption)
+
+# Define color palettes
+color_palettes <- list(
+  "Rainbow" = rainbow(10),
+  "Viridis" = viridisLite::viridis(10),
+  "Magma" = viridisLite::magma(10),
+  "Plasma" = viridisLite::plasma(10),
+  "Inferno" = viridisLite::inferno(10),
+  "Cividis" = viridisLite::cividis(10)
+)
+
+# Exercise 2
+# Replicate the scatter plot
+Advertising %>%
+  ggplot(aes(x = TV, y = Sales, color = TV)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) + 
+  theme_minimal() +
+  scale_color_gradientn(colors = color_palettes$Rainbow)
+
+# Exercise 3
+# Replicate the plot
+Advertising %>%
+  ggplot(aes(x = Radio, y = Sales, color = Radio)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) + 
+  theme_minimal() +
+  scale_color_gradientn(colors = color_palettes$Viridis)
+
+# Exercise 4
+# Replicate the plot
+Advertising %>%
+  ggplot(aes(x = Newspaper, y = Sales, color = Newspaper)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) + 
+  theme_minimal() +
+  scale_color_gradientn(colors = color_palettes$Magma)
+
+# Exercise 5
+# Run hypothesis test
+cor.test(formula = ~TV + Sales, method = "pearson", data = Advertising)
+
+# Exercise 6
+# Fit simple linear regression model
+M1 <- lm(Sales ~ TV, data = Advertising)
+summary(M1)
+
+# Exercise 7
+# Fit model with all predictors
+M2 <- lm(Sales ~ TV + Radio + Newspaper, data = Advertising)
+summary(M2)
+
+# Exercise 8
+# Diagnostic plots
+plot(M2, which = 1)
+plot(M2, which = 2)
+plot(M2, which = 3)
+plot(M2, which = 4)
+
+# Exercise 9
+# Run type 3 Anova
+Anova(M2, type = 3)
+```
