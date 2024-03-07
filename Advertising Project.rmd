@@ -1,0 +1,34 @@
+---
+title: "Advertising Project"
+author: "Avery Holloman"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(cowplot)
+
+# Create scatter plots with red regression lines for TV, radio, and newspaper
+plot_tv <- ggplot(Advertising, aes(x = TV, y = Sales)) +
+  geom_point(color = "blue") +
+  geom_smooth(method = "lm", formula = y ~ x, color = "red") +
+  labs(title = "TV vs. Sales", x = "TV Budget (thousands of dollars)", y = "Sales (thousands of units)") +
+  theme_minimal()
+
+plot_radio <- ggplot(Advertising, aes(x = Radio, y = Sales)) +
+  geom_point(color = "blue") +
+  geom_smooth(method = "lm", formula = y ~ x, color = "red") +
+  labs(title = "Radio vs. Sales", x = "Radio Budget (thousands of dollars)", y = "Sales (thousands of units)") +
+  theme_minimal()
+
+plot_newspaper <- ggplot(Advertising, aes(x = Newspaper, y = Sales)) +
+  geom_point(color = "blue") +
+  geom_smooth(method = "lm", formula = y ~ x, color = "red") +
+  labs(title = "Newspaper vs. Sales", x = "Newspaper Budget (thousands of dollars)", y = "Sales (thousands of units)") +
+  theme_minimal()
+
+# Arrange plots side by side in a single line
+plot_grid(plot_tv, plot_radio, plot_newspaper, labels = "AUTO", ncol = 3)
+```
